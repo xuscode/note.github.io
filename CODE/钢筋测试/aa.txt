@@ -1,0 +1,80 @@
+
+
+```vb
+Dim part As part
+Set part = CATIA.ActiveEditor.ActiveObject
+
+Dim sel As Selection
+Set sel = CATIA.ActiveEditor.Selection
+
+
+CATIA.ActiveEditor.Selection.Clear
+CATIA.ActiveEditor.Selection.Add ptset
+'CATIA.ActiveEditor.Selection.Search("Topology.Edge,sel")
+'CATIA.ActiveEditor.Selection.Search "Topology.Vertex,all"
+
+CATIA.ActiveEditor.Selection.Search ("Name ='Reinforcing bars wire*',sel")
+
+'MsgBox sel.Count
+Dim alen As Double
+For I = 1 To CATIA.ActiveEditor.Selection.Count
+
+    Dim udf As HybridShape
+    Set udf = CATIA.ActiveEditor.Selection.Item(I).Value
+    
+   
+    alen = (alen +GetLineLength(udf))
+   
+    part.UpdateObject udf
+Next
+
+dim vol as double 
+vol = GetVolume(obj2)
+
+ 'Dim parms As Parameters
+ 'Set parms = part.Parameters.SubList(parmgeo, True)
+    
+p1.ValuateFromString (cstr(alen/1000) & "m")
+    
+
+MsgBox "选择构件为：" + ptset.Name & Chr(13) & "钢筋总长度为：" & alen / 1000 & "米" & Chr(13) &  "混凝土体积为：" & vol
+sel.clear
+End Sub
+
+' You can add procedures or functions here (with Sub...End Sub or Function...End Function structures)
+' and call them from your main
+
+
+Function GetLineLength(ByVal obj As AnyObject) As Double
+
+    Dim theMeasureService As MeasurableService
+    Set theMeasureService = CATIA.ActiveEditor.GetService("MeasurableService")
+    
+    Dim theMeasureItem As MeasurableLine
+    Set theMeasureItem = theMeasureService.GetMeasurable(obj, CATMeasurableType.CAAMeasurableLine)
+    
+    Dim result As Double
+    result = theMeasureItem.GetLength()
+    
+    GetLineLength = result
+End Function
+
+
+
+Function GetVolume(ByVal obj As AnyObject) As Double
+
+    Dim theMeasureService As MeasurableService
+    Set theMeasureService = CATIA.ActiveEditor.GetService("MeasurableService")
+    
+    Dim theMeasureItem As MeasurableVolume
+    Set theMeasureItem = theMeasureService.GetMeasurable(obj, CATMeasurableType.CAAMeasurableVolume)
+    
+    Dim result As Double
+    result = theMeasureItem.GetVolume()
+       
+    GetVolume = result
+End Function
+
+```
+
+![](2022-03-18-01-07-50.png)

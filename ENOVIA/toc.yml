@@ -1,0 +1,12 @@
+- name: CleanNativeAppsCache
+  href: CleanNativeAppsCache.md
+- name: rebuild search index
+  href: rebuild search index.md
+- name: RemotelyaccessingtheWindowsServer
+  href: RemotelyaccessingtheWindowsServer/RemotelyaccessingtheWindowsServer.md
+
+- name: Reset database password
+  href: Reset database password.md
+
+- name: reset3DPassportPasswd
+  href: reset3DPassportPasswd.md
